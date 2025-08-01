@@ -85,6 +85,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Service Tickets Management
     Route::prefix('service-tickets')->group(function () {
         Route::get('/', [\App\Http\Controllers\ServiceTicketController::class, 'index']);
+        Route::get('/{id}', [\App\Http\Controllers\ServiceTicketController::class, 'show']);
         Route::get('/client/{clientId}', [\App\Http\Controllers\ServiceTicketController::class, 'getByClient']);
         Route::post('/', [\App\Http\Controllers\ServiceTicketController::class, 'store']);
         Route::put('/{id}', [\App\Http\Controllers\ServiceTicketController::class, 'update']);

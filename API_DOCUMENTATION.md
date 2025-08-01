@@ -924,6 +924,301 @@ curl -X POST http://127.0.0.1:8001/api/daily-logs/1/generate-excel \
 
 ---
 
+## 🎫 Service Tickets Management APIs
+
+### 1. Get All Service Tickets
+**GET** `/service-tickets`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "ticket_number": "ST-000001",
+        "client_id": 2,
+        "sub_agreement_id": null,
+        "call_out_job_id": null,
+        "date": "2025-08-01T00:00:00.000000Z",
+        "status": "In Field to Sign",
+        "amount": "1500.00",
+        "related_log_ids": null,
+        "documents": null,
+        "created_at": "2025-08-01T22:17:10.000000Z",
+        "updated_at": "2025-08-01T22:17:10.000000Z",
+        "client": {
+          "id": 2,
+          "name": "test company"
+        },
+        "sub_agreement": null
+      }
+    ],
+    "per_page": 15,
+    "total": 1
+  },
+  "message": "Service tickets retrieved successfully"
+}
+```
+
+### 2. Create Service Ticket
+**POST** `/service-tickets`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "client_id": 2,
+  "sub_agreement_id": null,
+  "call_out_job_id": null,
+  "date": "2025-08-01",
+  "status": "In Field to Sign",
+  "amount": 1500.00,
+  "related_log_ids": [1, 2, 3],
+  "documents": [
+    {
+      "name": "Invoice",
+      "file_path": "/path/to/file.pdf",
+      "file_type": "pdf",
+      "upload_date": "2025-08-01"
+    }
+  ]
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_number": "ST-000001",
+    "client_id": 2,
+    "date": "2025-08-01T00:00:00.000000Z",
+    "status": "In Field to Sign",
+    "amount": "1500.00",
+    "client": {
+      "id": 2,
+      "name": "test company"
+    }
+  },
+  "message": "Service ticket created successfully"
+}
+```
+
+### 3. Get Service Ticket by ID
+**GET** `/service-tickets/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_number": "ST-000001",
+    "client_id": 2,
+    "date": "2025-08-01T00:00:00.000000Z",
+    "status": "In Field to Sign",
+    "amount": "1500.00",
+    "client": {
+      "id": 2,
+      "name": "test company"
+    },
+    "sub_agreement": null,
+    "call_out_job": null,
+    "ticket_issues": []
+  },
+  "message": "Service ticket retrieved successfully"
+}
+```
+
+### 4. Update Service Ticket
+**PUT** `/service-tickets/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "client_id": 2,
+  "date": "2025-08-01",
+  "status": "Delivered",
+  "amount": 1800.00
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_number": "ST-000001",
+    "client_id": 2,
+    "date": "2025-08-01T00:00:00.000000Z",
+    "status": "Delivered",
+    "amount": "1800.00",
+    "client": {
+      "id": 2,
+      "name": "test company"
+    }
+  },
+  "message": "Service ticket updated successfully"
+}
+```
+
+### 5. Delete Service Ticket
+**DELETE** `/service-tickets/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Service ticket deleted successfully"
+}
+```
+
+### 6. Get Service Tickets by Client
+**GET** `/service-tickets/client/{clientId}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "ticket_number": "ST-000001",
+      "client_id": 2,
+      "date": "2025-08-01T00:00:00.000000Z",
+      "status": "In Field to Sign",
+      "amount": "1500.00",
+      "client": {
+        "id": 2,
+        "name": "test company"
+      }
+    }
+  ],
+  "message": "Client service tickets retrieved successfully"
+}
+```
+
+### 7. Generate Service Ticket from Logs
+**POST** `/service-tickets/generate`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "client_id": 2,
+  "log_ids": [12, 13, 14],
+  "sub_agreement_id": null,
+  "call_out_job_id": null,
+  "date": "2025-08-01",
+  "status": "In Field to Sign",
+  "amount": 2000.00
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 2,
+    "ticket_number": "ST-000002",
+    "client_id": 2,
+    "date": "2025-08-01T00:00:00.000000Z",
+    "status": "In Field to Sign",
+    "amount": "2000.00",
+    "client": {
+      "id": 2,
+      "name": "test company"
+    }
+  },
+  "message": "Service ticket generated from logs successfully"
+}
+```
+
+**CURL Examples:**
+
+```bash
+# Get all service tickets
+curl -X GET http://127.0.0.1:8001/api/service-tickets \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json"
+
+# Create service ticket
+curl -X POST http://127.0.0.1:8001/api/service-tickets \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": 2,
+    "date": "2025-08-01",
+    "status": "In Field to Sign",
+    "amount": 1500.00
+  }'
+
+# Generate from logs
+curl -X POST http://127.0.0.1:8001/api/service-tickets/generate \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": 2,
+    "log_ids": [12],
+    "date": "2025-08-01",
+    "status": "In Field to Sign",
+    "amount": 2000.00
+  }'
+```
+
+---
+
 ## 📈 Dashboard APIs
 
 ### 1. Get Dashboard Stats
