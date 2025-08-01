@@ -96,6 +96,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Ticket Issues Management
     Route::prefix('ticket-issues')->group(function () {
         Route::get('/', [\App\Http\Controllers\TicketIssueController::class, 'index']);
+        Route::get('/{id}', [\App\Http\Controllers\TicketIssueController::class, 'show']);
         Route::get('/ticket/{ticketId}', [\App\Http\Controllers\TicketIssueController::class, 'getByTicket']);
         Route::post('/', [\App\Http\Controllers\TicketIssueController::class, 'store']);
         Route::put('/{id}', [\App\Http\Controllers\TicketIssueController::class, 'update']);

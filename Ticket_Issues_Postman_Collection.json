@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "ticket-issues-collection",
+		"name": "Ticket Issues API",
+		"description": "Complete Ticket Issue management API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@almansoori.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ticket Issues",
+			"item": [
+				{
+					"name": "Get All Ticket Issues",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ticket-issues",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Ticket Issue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ticket_id\": 1,\n  \"description\": \"Missing signature from client representative\",\n  \"status\": \"Open\",\n  \"remarks\": \"Contacted client on 27/07/2025\",\n  \"date_reported\": \"2025-08-01\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ticket-issues",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket Issue by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ticket-issues/{{issue_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues",
+								"{{issue_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ticket Issue",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ticket_id\": 1,\n  \"description\": \"Missing signature from client representative\",\n  \"status\": \"In Progress\",\n  \"remarks\": \"Client agreed to sign tomorrow\",\n  \"date_reported\": \"2025-08-01\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ticket-issues/{{issue_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues",
+								"{{issue_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ticket Issue",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ticket-issues/{{issue_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues",
+								"{{issue_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket Issues by Ticket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ticket-issues/ticket/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ticket-issues",
+								"ticket",
+								"{{ticket_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8001/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "issue_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "ticket_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+} 

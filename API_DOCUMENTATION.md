@@ -1219,6 +1219,246 @@ curl -X POST http://127.0.0.1:8001/api/service-tickets/generate \
 
 ---
 
+## 🚨 Ticket Issues Management APIs
+
+### 1. Get All Ticket Issues
+**GET** `/ticket-issues`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "ticket_id": 1,
+        "description": "Missing signature from client representative",
+        "status": "In Progress",
+        "remarks": "Client agreed to sign tomorrow",
+        "date_reported": "2025-08-01T00:00:00.000000Z",
+        "created_at": "2025-08-01T22:36:55.000000Z",
+        "updated_at": "2025-08-01T22:38:47.000000Z",
+        "ticket": {
+          "id": 1,
+          "ticket_number": "ST-000001",
+          "client_id": 2,
+          "date": "2025-08-01T00:00:00.000000Z",
+          "status": "Delivered",
+          "amount": "1800.00"
+        }
+      }
+    ],
+    "per_page": 15,
+    "total": 1
+  },
+  "message": "Ticket issues retrieved successfully"
+}
+```
+
+### 2. Create Ticket Issue
+**POST** `/ticket-issues`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "ticket_id": 1,
+  "description": "Missing signature from client representative",
+  "status": "Open",
+  "remarks": "Contacted client on 27/07/2025",
+  "date_reported": "2025-08-01"
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_id": 1,
+    "description": "Missing signature from client representative",
+    "status": "Open",
+    "remarks": "Contacted client on 27/07/2025",
+    "date_reported": "2025-08-01T00:00:00.000000Z",
+    "ticket": {
+      "id": 1,
+      "ticket_number": "ST-000001"
+    }
+  },
+  "message": "Ticket issue created successfully"
+}
+```
+
+### 3. Get Ticket Issue by ID
+**GET** `/ticket-issues/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_id": 1,
+    "description": "Missing signature from client representative",
+    "status": "In Progress",
+    "remarks": "Client agreed to sign tomorrow",
+    "date_reported": "2025-08-01T00:00:00.000000Z",
+    "ticket": {
+      "id": 1,
+      "ticket_number": "ST-000001",
+      "client_id": 2,
+      "date": "2025-08-01T00:00:00.000000Z",
+      "status": "Delivered",
+      "amount": "1800.00"
+    }
+  },
+  "message": "Ticket issue retrieved successfully"
+}
+```
+
+### 4. Update Ticket Issue
+**PUT** `/ticket-issues/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "ticket_id": 1,
+  "description": "Missing signature from client representative",
+  "status": "In Progress",
+  "remarks": "Client agreed to sign tomorrow",
+  "date_reported": "2025-08-01"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "ticket_id": 1,
+    "description": "Missing signature from client representative",
+    "status": "In Progress",
+    "remarks": "Client agreed to sign tomorrow",
+    "date_reported": "2025-08-01T00:00:00.000000Z",
+    "ticket": {
+      "id": 1,
+      "ticket_number": "ST-000001"
+    }
+  },
+  "message": "Ticket issue updated successfully"
+}
+```
+
+### 5. Delete Ticket Issue
+**DELETE** `/ticket-issues/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Ticket issue deleted successfully"
+}
+```
+
+### 6. Get Ticket Issues by Ticket
+**GET** `/ticket-issues/ticket/{ticketId}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "ticket_id": 1,
+      "description": "Missing signature from client representative",
+      "status": "In Progress",
+      "remarks": "Client agreed to sign tomorrow",
+      "date_reported": "2025-08-01T00:00:00.000000Z",
+      "ticket": {
+        "id": 1,
+        "ticket_number": "ST-000001",
+        "client_id": 2,
+        "date": "2025-08-01T00:00:00.000000Z",
+        "status": "Delivered",
+        "amount": "1800.00"
+      }
+    }
+  ],
+  "message": "Ticket issues retrieved successfully"
+}
+```
+
+**CURL Examples:**
+
+```bash
+# Get all ticket issues
+curl -X GET http://127.0.0.1:8001/api/ticket-issues \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json"
+
+# Create ticket issue
+curl -X POST http://127.0.0.1:8001/api/ticket-issues \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ticket_id": 1,
+    "description": "Missing signature from client representative",
+    "status": "Open",
+    "remarks": "Contacted client on 27/07/2025",
+    "date_reported": "2025-08-01"
+  }'
+
+# Get issues by ticket
+curl -X GET http://127.0.0.1:8001/api/ticket-issues/ticket/1 \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json"
+```
+
+---
+
 ## 📈 Dashboard APIs
 
 ### 1. Get Dashboard Stats
