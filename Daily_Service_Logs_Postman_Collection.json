@@ -1,0 +1,240 @@
+{
+  "info": {
+    "name": "Daily Service Logs API",
+    "description": "Complete API collection for Daily Service Logs management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8001/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "log_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@almansoori.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Daily Service Logs",
+      "item": [
+        {
+          "name": "Get All Daily Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/daily-logs",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Daily Service Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": 2,\n  \"field\": \"Ruwais Field\",\n  \"well\": \"RW-123\",\n  \"contract\": \"CT-2025-001\",\n  \"job_no\": \"JOB-001\",\n  \"date\": \"2025-07-27\",\n  \"linked_job_id\": \"LINK-001\",\n  \"personnel\": [\n    {\n      \"name\": \"Ahmed Ali\",\n      \"position\": \"Drilling Engineer\",\n      \"hours\": 8\n    },\n    {\n      \"name\": \"Mohammed Hassan\",\n      \"position\": \"Field Supervisor\",\n      \"hours\": 10\n    }\n  ],\n  \"equipment_used\": [\n    {\n      \"name\": \"Drilling Rig\",\n      \"hours\": 8\n    },\n    {\n      \"name\": \"Crane\",\n      \"hours\": 4\n    }\n  ],\n  \"almansoori_rep\": [\n    {\n      \"name\": \"Omar Khalil\",\n      \"position\": \"Project Manager\"\n    },\n    {\n      \"name\": \"Fatima Al-Zahra\",\n      \"position\": \"Safety Officer\"\n    }\n  ],\n  \"mog_approval_1\": {\n    \"name\": \"Inspector Ahmed\",\n    \"signature\": \"base64_signature_string_here\",\n    \"date\": \"2025-07-27\"\n  },\n  \"mog_approval_2\": {\n    \"name\": \"Supervisor Mohammed\",\n    \"signature\": \"base64_signature_string_here\",\n    \"date\": \"2025-07-27\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/daily-logs",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Daily Log",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/daily-logs/{{log_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "{{log_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Daily Service Log",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": 2,\n  \"field\": \"Updated Ruwais Field\",\n  \"well\": \"RW-123\",\n  \"contract\": \"CT-2025-001\",\n  \"job_no\": \"JOB-001\",\n  \"date\": \"2025-07-27\",\n  \"linked_job_id\": \"LINK-001\",\n  \"personnel\": [\n    {\n      \"name\": \"Updated Ahmed Ali\",\n      \"position\": \"Senior Drilling Engineer\",\n      \"hours\": 10\n    },\n    {\n      \"name\": \"Updated Mohammed Hassan\",\n      \"position\": \"Senior Field Supervisor\",\n      \"hours\": 12\n    }\n  ],\n  \"equipment_used\": [\n    {\n      \"name\": \"Updated Drilling Rig\",\n      \"hours\": 10\n    },\n    {\n      \"name\": \"Updated Crane\",\n      \"hours\": 6\n    }\n  ],\n  \"almansoori_rep\": [\n    {\n      \"name\": \"Updated Omar Khalil\",\n      \"position\": \"Senior Project Manager\"\n    },\n    {\n      \"name\": \"Updated Fatima Al-Zahra\",\n      \"position\": \"Senior Safety Officer\"\n    }\n  ],\n  \"mog_approval_1\": {\n    \"name\": \"Updated Inspector Ahmed\",\n    \"signature\": \"updated_base64_signature_string_here\",\n    \"date\": \"2025-07-27\"\n  },\n  \"mog_approval_2\": {\n    \"name\": \"Updated Supervisor Mohammed\",\n    \"signature\": \"updated_base64_signature_string_here\",\n    \"date\": \"2025-07-27\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/daily-logs/{{log_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "{{log_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Excel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{base_url}}/daily-logs/{{log_id}}/generate-excel",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "{{log_id}}", "generate-excel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Download Excel File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/daily-logs/{{log_id}}/download/excel",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "{{log_id}}", "download", "excel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Client Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/daily-logs/client/2",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "client", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Daily Service Log",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/daily-logs/{{log_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["daily-logs", "{{log_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+} 

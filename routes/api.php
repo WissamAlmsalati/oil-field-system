@@ -69,12 +69,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Daily Service Logs Management
     Route::prefix('daily-logs')->group(function () {
         Route::get('/', [\App\Http\Controllers\DailyServiceLogController::class, 'index']);
+        Route::get('/{id}', [\App\Http\Controllers\DailyServiceLogController::class, 'show']);
         Route::get('/client/{clientId}', [\App\Http\Controllers\DailyServiceLogController::class, 'getByClient']);
         Route::post('/', [\App\Http\Controllers\DailyServiceLogController::class, 'store']);
         Route::put('/{id}', [\App\Http\Controllers\DailyServiceLogController::class, 'update']);
         Route::delete('/{id}', [\App\Http\Controllers\DailyServiceLogController::class, 'destroy']);
         Route::post('/{id}/generate-excel', [\App\Http\Controllers\DailyServiceLogController::class, 'generateExcel']);
+        Route::get('/{id}/download/{type}', [\App\Http\Controllers\DailyServiceLogController::class, 'downloadFile']);
+        Route::get('/{id}/download-file/{type}', [\App\Http\Controllers\DailyServiceLogController::class, 'downloadFileDirect']);
     });
+
+    // Public file download (no authentication required)
+    Route::get('/daily-logs/public/download/{filename}', [\App\Http\Controllers\DailyServiceLogController::class, 'publicDownload']);
 
     // Service Tickets Management
     Route::prefix('service-tickets')->group(function () {

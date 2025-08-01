@@ -365,11 +365,225 @@ curl -X POST http://127.0.0.1:8001/api/sub-agreements \
 ### 1. Get All Daily Logs
 **GET** `/daily-logs`
 
-### 2. Get Daily Logs by Client
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Parameters:**
+- `page` (optional): Page number for pagination
+- `per_page` (optional): Items per page (default: 15)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "log_number": "DSL-000001",
+        "client_id": 1,
+        "field": "Ruwais Field",
+        "well": "RW-123",
+        "contract": "CT-2025-001",
+        "job_no": "JOB-001",
+        "date": "2025-07-27",
+        "linked_job_id": "1",
+        "personnel": [
+          {
+            "name": "Ahmed Ali",
+            "position": "Drilling Engineer",
+            "hours": 8
+          }
+        ],
+        "equipment_used": [
+          {
+            "name": "Drilling Rig",
+            "hours": 8
+          }
+        ],
+        "almansoori_rep": [
+          {
+            "name": "Mohamed Hassan",
+            "position": "Field Supervisor"
+          }
+        ],
+        "mog_approval_1": {
+          "name": "Inspector 1",
+          "signature": "base64_signature_string",
+          "date": "2025-07-27"
+        },
+        "mog_approval_2": {
+          "name": "Inspector 2",
+          "signature": "base64_signature_string",
+          "date": "2025-07-27"
+        },
+        "excel_file_path": null,
+        "excel_file_name": null,
+        "pdf_file_path": null,
+        "pdf_file_name": null,
+        "created_at": "2025-07-27T10:00:00.000000Z",
+        "updated_at": "2025-07-27T10:00:00.000000Z",
+        "client": {
+          "id": 1,
+          "name": "ADNOC",
+          "email": "contact@adnoc.ae"
+        }
+      }
+    ],
+    "total": 1,
+    "per_page": 15
+  },
+  "message": "Daily service logs retrieved successfully"
+}
+```
+
+### 2. Get Daily Log by ID
+**GET** `/daily-logs/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "log_number": "DSL-000001",
+    "client_id": 1,
+    "field": "Ruwais Field",
+    "well": "RW-123",
+    "contract": "CT-2025-001",
+    "job_no": "JOB-001",
+    "date": "2025-07-27",
+    "linked_job_id": "1",
+    "personnel": [
+      {
+        "name": "Ahmed Ali",
+        "position": "Drilling Engineer",
+        "hours": 8
+      }
+    ],
+    "equipment_used": [
+      {
+        "name": "Drilling Rig",
+        "hours": 8
+      }
+    ],
+    "almansoori_rep": [
+      {
+        "name": "Mohamed Hassan",
+        "position": "Field Supervisor"
+      }
+    ],
+    "mog_approval_1": {
+      "name": "Inspector 1",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "mog_approval_2": {
+      "name": "Inspector 2",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "excel_file_path": null,
+    "excel_file_name": null,
+    "pdf_file_path": null,
+    "pdf_file_name": null,
+    "created_at": "2025-07-27T10:00:00.000000Z",
+    "updated_at": "2025-07-27T10:00:00.000000Z",
+    "client": {
+      "id": 1,
+      "name": "ADNOC",
+      "email": "contact@adnoc.ae"
+    }
+  },
+  "message": "Daily service log retrieved successfully"
+}
+```
+
+### 3. Get Daily Logs by Client
 **GET** `/daily-logs/client/{clientId}`
 
-### 3. Create Daily Service Log
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "log_number": "DSL-000001",
+      "client_id": 1,
+      "field": "Ruwais Field",
+      "well": "RW-123",
+      "contract": "CT-2025-001",
+      "job_no": "JOB-001",
+      "date": "2025-07-27",
+      "linked_job_id": "1",
+      "personnel": [
+        {
+          "name": "Ahmed Ali",
+          "position": "Drilling Engineer",
+          "hours": 8
+        }
+      ],
+      "equipment_used": [
+        {
+          "name": "Drilling Rig",
+          "hours": 8
+        }
+      ],
+      "almansoori_rep": [
+        {
+          "name": "Mohamed Hassan",
+          "position": "Field Supervisor"
+        }
+      ],
+      "mog_approval_1": {
+        "name": "Inspector 1",
+        "signature": "base64_signature_string",
+        "date": "2025-07-27"
+      },
+      "mog_approval_2": {
+        "name": "Inspector 2",
+        "signature": "base64_signature_string",
+        "date": "2025-07-27"
+      },
+      "excel_file_path": null,
+      "excel_file_name": null,
+      "pdf_file_path": null,
+      "pdf_file_name": null,
+      "created_at": "2025-07-27T10:00:00.000000Z",
+      "updated_at": "2025-07-27T10:00:00.000000Z",
+      "client": {
+        "id": 1,
+        "name": "ADNOC",
+        "email": "contact@adnoc.ae"
+      }
+    }
+  ],
+  "message": "Client daily service logs retrieved successfully"
+}
+```
+
+### 4. Create Daily Service Log
 **POST** `/daily-logs`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+```
 
 **Request Body:**
 ```json
@@ -380,7 +594,7 @@ curl -X POST http://127.0.0.1:8001/api/sub-agreements \
   "contract": "CT-2025-001",
   "job_no": "JOB-001",
   "date": "2025-07-27",
-  "linked_job_id": "1", // ID of SubAgreement or CallOutJob
+  "linked_job_id": "1",
   "personnel": [
     {
       "name": "Ahmed Ali",
@@ -391,29 +605,259 @@ curl -X POST http://127.0.0.1:8001/api/sub-agreements \
   "equipment_used": [
     {
       "name": "Drilling Rig",
-      "type": "Heavy Equipment",
       "hours": 8
     }
   ],
-  "almansoori_rep": {
-    "name": "Mohamed Hassan",
-    "signature": "base64_signature_string"
-  },
+  "almansoori_rep": [
+    {
+      "name": "Mohamed Hassan",
+      "position": "Field Supervisor"
+    }
+  ],
   "mog_approval_1": {
     "name": "Inspector 1",
-    "signature": "base64_signature_string"
+    "signature": "base64_signature_string",
+    "date": "2025-07-27"
   },
   "mog_approval_2": {
     "name": "Inspector 2",
-    "signature": "base64_signature_string"
-  }
+    "signature": "base64_signature_string",
+    "date": "2025-07-27"
+  },
+  "excel_file": "file", // Optional - Excel file upload
+  "pdf_file": "file"    // Optional - PDF file upload
 }
 ```
 
-### 4. Generate Excel for Daily Log
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "log_number": "DSL-000001",
+    "client_id": 1,
+    "field": "Ruwais Field",
+    "well": "RW-123",
+    "contract": "CT-2025-001",
+    "job_no": "JOB-001",
+    "date": "2025-07-27",
+    "linked_job_id": "1",
+    "personnel": [
+      {
+        "name": "Ahmed Ali",
+        "position": "Drilling Engineer",
+        "hours": 8
+      }
+    ],
+    "equipment_used": [
+      {
+        "name": "Drilling Rig",
+        "hours": 8
+      }
+    ],
+    "almansoori_rep": [
+      {
+        "name": "Mohamed Hassan",
+        "position": "Field Supervisor"
+      }
+    ],
+    "mog_approval_1": {
+      "name": "Inspector 1",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "mog_approval_2": {
+      "name": "Inspector 2",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "excel_file_path": "daily_logs/excel/excel_1234567890_file.xlsx",
+    "excel_file_name": "excel_1234567890_file.xlsx",
+    "pdf_file_path": "daily_logs/pdf/pdf_1234567890_file.pdf",
+    "pdf_file_name": "pdf_1234567890_file.pdf",
+    "created_at": "2025-07-27T10:00:00.000000Z",
+    "updated_at": "2025-07-27T10:00:00.000000Z",
+    "client": {
+      "id": 1,
+      "name": "ADNOC",
+      "email": "contact@adnoc.ae"
+    }
+  },
+  "message": "Daily service log created successfully"
+}
+```
+
+### 5. Update Daily Service Log
+**PUT** `/daily-logs/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+```
+
+**Request Body:** Same as Create Daily Service Log
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "log_number": "DSL-000001",
+    "client_id": 1,
+    "field": "Updated Field",
+    "well": "RW-123",
+    "contract": "CT-2025-001",
+    "job_no": "JOB-001",
+    "date": "2025-07-27",
+    "linked_job_id": "1",
+    "personnel": [
+      {
+        "name": "Ahmed Ali",
+        "position": "Drilling Engineer",
+        "hours": 8
+      }
+    ],
+    "equipment_used": [
+      {
+        "name": "Drilling Rig",
+        "hours": 8
+      }
+    ],
+    "almansoori_rep": [
+      {
+        "name": "Mohamed Hassan",
+        "position": "Field Supervisor"
+      }
+    ],
+    "mog_approval_1": {
+      "name": "Inspector 1",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "mog_approval_2": {
+      "name": "Inspector 2",
+      "signature": "base64_signature_string",
+      "date": "2025-07-27"
+    },
+    "excel_file_path": "daily_logs/excel/excel_1234567890_file.xlsx",
+    "excel_file_name": "excel_1234567890_file.xlsx",
+    "pdf_file_path": "daily_logs/pdf/pdf_1234567890_file.pdf",
+    "pdf_file_name": "pdf_1234567890_file.pdf",
+    "created_at": "2025-07-27T10:00:00.000000Z",
+    "updated_at": "2025-07-27T10:00:00.000000Z",
+    "client": {
+      "id": 1,
+      "name": "ADNOC",
+      "email": "contact@adnoc.ae"
+    }
+  },
+  "message": "Daily service log updated successfully"
+}
+```
+
+### 6. Delete Daily Service Log
+**DELETE** `/daily-logs/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Daily service log deleted successfully"
+}
+```
+
+### 7. Generate Excel for Daily Log
 **POST** `/daily-logs/{id}/generate-excel`
 
-**Response:** Excel file download
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "file_path": "daily_logs/excel/daily_service_log_DSL-000001_2025-07-27_10-00-00.xlsx",
+    "file_name": "daily_service_log_DSL-000001_2025-07-27_10-00-00.xlsx",
+    "download_url": "http://127.0.0.1:8001/storage/daily_logs/excel/daily_service_log_DSL-000001_2025-07-27_10-00-00.xlsx",
+    "public_download_url": "http://127.0.0.1:8001/download/daily_service_log_DSL-000001_2025-07-27_10-00-00.xlsx"
+  },
+  "message": "Excel file generated successfully"
+}
+```
+
+### 8. Download File URL
+**GET** `/daily-logs/{id}/download/{type}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Parameters:**
+- `type`: `excel` or `pdf`
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "download_url": "http://127.0.0.1:8001/storage/daily_logs/excel/file.xlsx",
+    "file_name": "file.xlsx"
+  },
+  "message": "File download URL generated successfully"
+}
+```
+
+### 9. Direct File Download
+**GET** `/daily-logs/{id}/download-file/{type}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Parameters:**
+- `type`: `excel` or `pdf`
+
+**Response:** Direct file download with proper headers
+
+**CURL Examples:**
+
+**Create Daily Service Log:**
+```bash
+curl -X POST http://127.0.0.1:8001/api/daily-logs \
+  -H "Authorization: Bearer {token}" \
+  -F "client_id=1" \
+  -F "field=Ruwais Field" \
+  -F "well=RW-123" \
+  -F "contract=CT-2025-001" \
+  -F "job_no=JOB-001" \
+  -F "date=2025-07-27" \
+  -F "personnel[0][name]=Ahmed Ali" \
+  -F "personnel[0][position]=Drilling Engineer" \
+  -F "personnel[0][hours]=8" \
+  -F "equipment_used[0][name]=Drilling Rig" \
+  -F "equipment_used[0][hours]=8" \
+  -F "almansoori_rep[0][name]=Mohamed Hassan" \
+  -F "almansoori_rep[0][position]=Field Supervisor"
+```
+
+**Generate Excel:**
+```bash
+curl -X POST http://127.0.0.1:8001/api/daily-logs/1/generate-excel \
+  -H "Authorization: Bearer {token}"
+```
 
 ---
 
