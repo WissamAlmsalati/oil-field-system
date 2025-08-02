@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "almansoori-petroleum-api",
-		"name": "Almansoori Petroleum Services API",
-		"description": "Complete API collection for Almansoori Petroleum Services backend system",
+		"name": "Almansoori Petroleum Services API - Complete",
+		"description": "Complete API collection for Almansoori Petroleum Services backend system with ALL endpoints including Document Archive, Daily Service Logs, Service Tickets, Ticket Issues, Call-Out Jobs, Sub-Agreements, and Dashboard",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -123,6 +123,507 @@
 							"path": [
 								"auth",
 								"logout"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Document Archive",
+			"item": [
+				{
+					"name": "Get All Documents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents?page=1&per_page=15&sort_by=created_at&sort_order=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at"
+								},
+								{
+									"key": "sort_order",
+									"value": "desc"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Documents with Filters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents?category=Report&client_id=2&search=test&public_only=true&expired_only=false",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Report"
+								},
+								{
+									"key": "client_id",
+									"value": "2"
+								},
+								{
+									"key": "search",
+									"value": "test"
+								},
+								{
+									"key": "public_only",
+									"value": "true"
+								},
+								{
+									"key": "expired_only",
+									"value": "false"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Document Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"categories"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Document Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Upload Single Document",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Sample Document",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a sample document for the archive system",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Report",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "sample",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "is_public",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "expiry_date",
+									"value": "2025-12-31",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents"
+							]
+						}
+					}
+				},
+				{
+					"name": "Bulk Upload Documents",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files[]",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "files[]",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "category",
+									"value": "Contract",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "bulk",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "upload",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "is_public",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/bulk-upload",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"bulk-upload"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Document",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Document",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Document Title\",\n  \"description\": \"This is an updated document description\",\n  \"category\": \"Manual\",\n  \"tags\": [\"updated\", \"manual\", \"important\"],\n  \"client_id\": 2,\n  \"is_public\": false,\n  \"expiry_date\": \"2025-12-31\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Documents by Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/client/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"client",
+								"2"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Download URL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/1/download",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1",
+								"download"
+							]
+						}
+					}
+				},
+				{
+					"name": "Download Document Direct",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/1/download-direct",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1",
+								"download-direct"
+							]
+						}
+					}
+				},
+				{
+					"name": "Preview Document",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/1/preview",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1",
+								"preview"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Single Document",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/documents/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Bulk Delete Documents",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"document_ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/bulk-delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"bulk-delete"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Public Downloads",
+			"item": [
+				{
+					"name": "Public Document Download",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/documents/public/download/sample_document.pdf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"public",
+								"download",
+								"sample_document.pdf"
+							]
+						}
+					}
+				},
+				{
+					"name": "Public Daily Log Download",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/public/download/daily_service_log_DSL-000010_2025-08-01_19-54-45.xlsx",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"public",
+								"download",
+								"daily_service_log_DSL-000010_2025-08-01_19-54-45.xlsx"
 							]
 						}
 					}
@@ -706,6 +1207,830 @@
 			]
 		},
 		{
+			"name": "Daily Service Logs",
+			"item": [
+				{
+					"name": "Get All Daily Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs?page=1&per_page=15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Daily Log",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Daily Logs by Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/client/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"client",
+								"2"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Daily Log",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": 2,\n  \"date\": \"2025-08-01\",\n  \"location\": \"Abu Dhabi Oil Field\",\n  \"weather_conditions\": \"Clear\",\n  \"temperature\": 35,\n  \"humidity\": 60,\n  \"wind_speed\": 15,\n  \"activities\": [\n    {\n      \"activity_type\": \"Well Maintenance\",\n      \"description\": \"Routine maintenance of well head equipment\",\n      \"start_time\": \"08:00\",\n      \"end_time\": \"12:00\",\n      \"personnel\": [\"Ahmed Al Mansoori\", \"Mohammed Al Zaabi\"],\n      \"equipment\": [\"Wrench Set\", \"Pressure Gauge\"],\n      \"materials\": [\"Lubricant\", \"Seals\"],\n      \"safety_measures\": [\"PPE worn\", \"Safety briefing conducted\"]\n    }\n  ],\n  \"equipment_used\": [\"Crane\", \"Drill Rig\", \"Safety Equipment\"],\n  \"materials_consumed\": [\"Drilling Mud\", \"Cement\", \"Steel Pipes\"],\n  \"safety_incidents\": [],\n  \"environmental_observations\": \"No environmental issues observed\",\n  \"quality_control\": \"All measurements within acceptable ranges\",\n  \"next_day_plan\": \"Continue with well completion activities\",\n  \"remarks\": \"All operations completed successfully\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Daily Log",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"location\": \"Updated Abu Dhabi Oil Field\",\n  \"weather_conditions\": \"Partly Cloudy\",\n  \"temperature\": 38,\n  \"remarks\": \"Updated remarks for the daily log\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Daily Log",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Generate Excel Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1/generate-excel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1",
+								"generate-excel"
+							]
+						}
+					}
+				},
+				{
+					"name": "Download Excel File",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1/download/excel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1",
+								"download",
+								"excel"
+							]
+						}
+					}
+				},
+				{
+					"name": "Download File Direct",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/daily-logs/1/download-file/excel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daily-logs",
+								"1",
+								"download-file",
+								"excel"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Service Tickets",
+			"item": [
+				{
+					"name": "Get All Service Tickets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets?page=1&per_page=15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Service Ticket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Service Tickets by Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets/client/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets",
+								"client",
+								"2"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Service Ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": 2,\n  \"sub_agreement_id\": 1,\n  \"title\": \"Well Maintenance Service\",\n  \"description\": \"Routine maintenance and inspection of well equipment\",\n  \"service_type\": \"Maintenance\",\n  \"priority\": \"Medium\",\n  \"status\": \"Open\",\n  \"requested_date\": \"2025-08-01\",\n  \"scheduled_date\": \"2025-08-05\",\n  \"estimated_duration\": 8,\n  \"estimated_cost\": 5000.00,\n  \"location\": \"Abu Dhabi Oil Field - Well #123\",\n  \"contact_person\": \"Ahmed Al Mansoori\",\n  \"contact_phone\": \"+971501234567\",\n  \"special_requirements\": \"Safety equipment required\",\n  \"attachments\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Service Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"In Progress\",\n  \"actual_start_date\": \"2025-08-05\",\n  \"actual_end_date\": \"2025-08-06\",\n  \"actual_cost\": 4800.00,\n  \"completion_notes\": \"Service completed successfully\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Service Ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Generate Service Ticket from Logs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"daily_log_ids\": [1, 2, 3],\n  \"client_id\": 2,\n  \"sub_agreement_id\": 1,\n  \"title\": \"Generated Service Ticket\",\n  \"description\": \"Service ticket generated from daily logs\",\n  \"service_type\": \"Maintenance\",\n  \"priority\": \"Medium\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/service-tickets/generate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"service-tickets",
+								"generate"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Call-Out Jobs",
+			"item": [
+				{
+					"name": "Get All Call-Out Jobs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs?page=1&per_page=15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Call-Out Jobs Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Call-Out Jobs by Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/client/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"client",
+								"2"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Call-Out Job",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Call-Out Job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": 2,\n  \"title\": \"Emergency Well Repair\",\n  \"description\": \"Urgent repair needed for well head equipment\",\n  \"location\": \"Abu Dhabi Oil Field - Well #456\",\n  \"priority\": \"High\",\n  \"status\": \"Open\",\n  \"requested_date\": \"2025-08-01\",\n  \"estimated_duration\": 4,\n  \"estimated_cost\": 8000.00,\n  \"contact_person\": \"Ahmed Al Mansoori\",\n  \"contact_phone\": \"+971501234567\",\n  \"emergency_contact\": \"+971509876543\",\n  \"special_requirements\": \"Emergency response team required\",\n  \"attachments\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Call-Out Job",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"In Progress\",\n  \"actual_start_date\": \"2025-08-01\",\n  \"actual_end_date\": \"2025-08-02\",\n  \"actual_cost\": 7500.00,\n  \"completion_notes\": \"Emergency repair completed successfully\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Call-Out Job Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Completed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/1/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"1",
+								"status"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Call-Out Job",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/call-out-jobs/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"call-out-jobs",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Sub-Agreements",
+			"item": [
+				{
+					"name": "Get All Sub-Agreements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements?page=1&per_page=15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Sub-Agreements Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Sub-Agreements by Client",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements/client/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements",
+								"client",
+								"2"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Sub-Agreement",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Sub-Agreement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": 2,\n  \"agreement_number\": \"SA-2025-001\",\n  \"title\": \"Well Maintenance Services Agreement\",\n  \"description\": \"Comprehensive well maintenance and inspection services\",\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-12-31\",\n  \"total_value\": 500000.00,\n  \"currency\": \"AED\",\n  \"status\": \"Active\",\n  \"payment_terms\": \"Net 30 days\",\n  \"scope_of_work\": \"Routine maintenance, emergency repairs, and inspections\",\n  \"terms_and_conditions\": \"Standard terms and conditions apply\",\n  \"attachments\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Sub-Agreement",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Completed\",\n  \"end_date\": \"2025-12-31\",\n  \"total_value\": 520000.00,\n  \"completion_notes\": \"All services completed successfully\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Sub-Agreement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sub-agreements/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sub-agreements",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
 			"name": "Dashboard",
 			"item": [
 				{
@@ -778,7 +2103,12 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://127.0.0.1:8002/api",
+			"value": "http://127.0.0.1:8001/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
 			"type": "string"
 		}
 	]

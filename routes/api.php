@@ -30,9 +30,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Users Management (Admin only)
     Route::prefix('users')->middleware('role:Admin')->group(function () {
         Route::get('/', [\App\Http\Controllers\UserController::class, 'index']);
+        Route::get('/stats', [\App\Http\Controllers\UserController::class, 'stats']);
+        Route::get('/roles', [\App\Http\Controllers\UserController::class, 'getRoles']);
         Route::post('/', [\App\Http\Controllers\UserController::class, 'store']);
+        Route::get('/{id}', [\App\Http\Controllers\UserController::class, 'show']);
         Route::put('/{id}', [\App\Http\Controllers\UserController::class, 'update']);
         Route::delete('/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
+        Route::post('/{id}/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword']);
+        Route::get('/{id}/activity-log', [\App\Http\Controllers\UserController::class, 'getActivityLog']);
+        Route::post('/{id}/approve', [\App\Http\Controllers\UserController::class, 'approveUser']);
+        Route::post('/{id}/reject', [\App\Http\Controllers\UserController::class, 'rejectUser']);
+        Route::post('/bulk-delete', [\App\Http\Controllers\UserController::class, 'bulkDelete']);
+        Route::post('/bulk-approve', [\App\Http\Controllers\UserController::class, 'bulkApproveUsers']);
+    });
+
+    // User Profile Management (All authenticated users)
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [\App\Http\Controllers\UserController::class, 'profile']);
+        Route::put('/', [\App\Http\Controllers\UserController::class, 'updateProfile']);
+        Route::post('/change-password', [\App\Http\Controllers\UserController::class, 'changePassword']);
     });
 
     // Clients Management
@@ -79,8 +95,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}/download-file/{type}', [\App\Http\Controllers\DailyServiceLogController::class, 'downloadFileDirect']);
     });
 
-    // Public file download (no authentication required)
-    Route::get('/daily-logs/public/download/{filename}', [\App\Http\Controllers\DailyServiceLogController::class, 'publicDownload']);
+
+});
+
+// Public file download (no authentication required)
+Route::get('/daily-logs/public/download/{filename}', [\App\Http\Controllers\DailyServiceLogController::class, 'publicDownload']);
+
+// Public document download (no authentication required)
+Route::get('/documents/public/download/{filename}', [\App\Http\Controllers\DocumentController::class, 'publicDownload']);
+
+// Protected API Routes
+Route::middleware(['auth:sanctum'])->group(function () {
 
     // Service Tickets Management
     Route::prefix('service-tickets')->group(function () {
@@ -101,6 +126,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [\App\Http\Controllers\TicketIssueController::class, 'store']);
         Route::put('/{id}', [\App\Http\Controllers\TicketIssueController::class, 'update']);
         Route::delete('/{id}', [\App\Http\Controllers\TicketIssueController::class, 'destroy']);
+    });
+
+    // Document Archive Management
+    Route::prefix('documents')->group(function () {
+        Route::get('/', [\App\Http\Controllers\DocumentController::class, 'index']);
+        Route::get('/categories', [\App\Http\Controllers\DocumentController::class, 'getCategories']);
+        Route::get('/stats', [\App\Http\Controllers\DocumentController::class, 'getStats']);
+        Route::get('/{id}', [\App\Http\Controllers\DocumentController::class, 'show']);
+        Route::get('/client/{clientId}', [\App\Http\Controllers\DocumentController::class, 'getByClient']);
+        Route::post('/', [\App\Http\Controllers\DocumentController::class, 'store']);
+        Route::post('/bulk-upload', [\App\Http\Controllers\DocumentController::class, 'bulkStore']);
+        Route::put('/{id}', [\App\Http\Controllers\DocumentController::class, 'update']);
+        Route::delete('/{id}', [\App\Http\Controllers\DocumentController::class, 'destroy']);
+        Route::delete('/bulk-delete', [\App\Http\Controllers\DocumentController::class, 'bulkDestroy']);
+        Route::get('/{id}/download', [\App\Http\Controllers\DocumentController::class, 'download']);
+        Route::get('/{id}/download-direct', [\App\Http\Controllers\DocumentController::class, 'downloadDirect']);
+        Route::get('/{id}/preview', [\App\Http\Controllers\DocumentController::class, 'preview']);
     });
 
         // Dashboard

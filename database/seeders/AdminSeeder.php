@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
@@ -14,28 +15,54 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@almansoori.com',
-            'password' => Hash::make('password123'),
-            'role' => 'Admin',
-            'email_verified_at' => now(),
-        ]);
+        // Create or update admin user
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@almansoori.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ]
+        );
+        
+        // Assign Admin role
+        $adminRole = Role::where('name', 'Admin')->first();
+        if ($adminRole && !$admin->hasRole('Admin')) {
+            $admin->assignRole($adminRole);
+        }
 
-        User::create([
-            'name' => 'Manager User',
-            'email' => 'manager@almansoori.com',
-            'password' => Hash::make('password123'),
-            'role' => 'Manager',
-            'email_verified_at' => now(),
-        ]);
+        // Create or update manager user
+        $manager = User::firstOrCreate(
+            ['email' => 'manager@almansoori.com'],
+            [
+                'name' => 'Manager User',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ]
+        );
+        
+        // Assign Manager role
+        $managerRole = Role::where('name', 'Manager')->first();
+        if ($managerRole && !$manager->hasRole('Manager')) {
+            $manager->assignRole($managerRole);
+        }
 
-        User::create([
-            'name' => 'Regular User',
-            'email' => 'user@almansoori.com',
-            'password' => Hash::make('password123'),
-            'role' => 'User',
-            'email_verified_at' => now(),
-        ]);
+        // Create or update regular user
+        $user = User::firstOrCreate(
+            ['email' => 'user@almansoori.com'],
+            [
+                'name' => 'Regular User',
+                'password' => Hash::make('password123'),
+                'email_verified_at' => now(),
+            ]
+        );
+        
+        // Assign User role
+        $userRole = Role::where('name', 'User')->first();
+        if ($userRole && !$user->hasRole('User')) {
+            $user->assignRole($userRole);
+        }
+
+        $this->command->info('Admin users created/updated and roles assigned successfully!');
     }
 }

@@ -25,7 +25,7 @@ class RoleMiddleware
             ], 401);
         }
 
-        if ($request->user()->role !== $role) {
+        if (!$request->user()->hasRole($role)) {
             return response()->json([
                 'success' => false,
                 'error' => [

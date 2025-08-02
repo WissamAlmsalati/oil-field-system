@@ -1483,19 +1483,412 @@ curl -X GET http://127.0.0.1:8001/api/ticket-issues/ticket/1 \
 
 ---
 
-## 📁 Documents Management APIs
+## 📁 Document Archive Management APIs
 
 ### 1. Get All Documents
 **GET** `/documents`
 
-### 2. Get Documents by Client
+**Query Parameters:**
+- `page` (optional): Page number for pagination
+- `per_page` (optional): Number of items per page (default: 15)
+- `sort_by` (optional): Field to sort by (default: created_at)
+- `sort_order` (optional): Sort order - asc/desc (default: desc)
+- `category` (optional): Filter by category
+- `client_id` (optional): Filter by client ID
+- `search` (optional): Search in title, description, or filename
+- `public_only` (optional): Show only public documents
+- `expired_only` (optional): Show only expired documents
+- `not_expired` (optional): Show only non-expired documents
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "title": "Sample Document",
+        "description": "This is a sample document",
+        "file_name": "sample.pdf",
+        "file_size": 1024000,
+        "file_size_human": "1.00 MB",
+        "file_type": "pdf",
+        "mime_type": "application/pdf",
+        "category": "Report",
+        "tags": ["sample", "test"],
+        "client_id": 2,
+        "is_public": true,
+        "download_count": 5,
+        "expiry_date": "2025-12-31",
+        "is_expired": false,
+        "created_at": "2025-08-01T12:00:00.000000Z",
+        "updated_at": "2025-08-01T12:00:00.000000Z",
+        "client": {
+          "id": 2,
+          "name": "Client Name"
+        },
+        "uploaded_by": {
+          "id": 1,
+          "name": "Admin User"
+        }
+      }
+    ],
+    "total": 1,
+    "per_page": 15
+  },
+  "message": "Documents retrieved successfully"
+}
+```
+
+### 2. Get Document Categories
+**GET** `/documents/categories`
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "Contract": "Contracts and Agreements",
+    "Invoice": "Invoices and Billing",
+    "Report": "Reports and Analytics",
+    "Certificate": "Certificates and Licenses",
+    "License": "Licenses and Permits",
+    "Manual": "Manuals and Guides",
+    "Procedure": "Procedures and Policies",
+    "Policy": "Policies and Standards",
+    "Form": "Forms and Templates",
+    "Other": "Other Documents"
+  },
+  "message": "Document categories retrieved successfully"
+}
+```
+
+### 3. Get Document Statistics
+**GET** `/documents/stats`
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "total_documents": 25,
+    "total_size": 52428800,
+    "total_downloads": 150,
+    "by_category": [
+      {
+        "category": "Report",
+        "count": 10
+      },
+      {
+        "category": "Contract",
+        "count": 8
+      }
+    ],
+    "by_file_type": [
+      {
+        "file_type": "pdf",
+        "count": 15
+      },
+      {
+        "file_type": "docx",
+        "count": 5
+      }
+    ],
+    "recent_uploads": [...],
+    "expired_documents": 3,
+    "public_documents": 12,
+    "storage_usage": {
+      "total_size_human": "50.00 MB",
+      "average_file_size": "2.00 MB"
+    }
+  },
+  "message": "Document statistics retrieved successfully"
+}
+```
+
+### 4. Upload Single Document
+**POST** `/documents`
+
+**Headers:**
+```
+Content-Type: multipart/form-data
+Authorization: Bearer {token}
+```
+
+**Form Data:**
+- `file` (required): Document file (max 10MB)
+- `title` (required): Document title
+- `description` (optional): Document description
+- `category` (required): Document category
+- `tags[]` (optional): Array of tags
+- `client_id` (optional): Client ID
+- `is_public` (optional): Public access (true/false)
+- `expiry_date` (optional): Expiry date (YYYY-MM-DD)
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Sample Document",
+    "file_name": "sample.pdf",
+    "file_size": 1024000,
+    "file_size_human": "1.00 MB",
+    "category": "Report",
+    "tags": ["sample", "test"],
+    "is_public": true,
+    "download_count": 0,
+    "created_at": "2025-08-01T12:00:00.000000Z"
+  },
+  "message": "Document uploaded successfully"
+}
+```
+
+### 5. Bulk Upload Documents
+**POST** `/documents/bulk-upload`
+
+**Headers:**
+```
+Content-Type: multipart/form-data
+Authorization: Bearer {token}
+```
+
+**Form Data:**
+- `files[]` (required): Array of document files (max 10MB each)
+- `category` (required): Document category for all files
+- `tags[]` (optional): Array of tags for all files
+- `client_id` (optional): Client ID for all files
+- `is_public` (optional): Public access for all files
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "uploaded": [
+      {
+        "id": 1,
+        "title": "Document 1",
+        "file_name": "doc1.pdf"
+      },
+      {
+        "id": 2,
+        "title": "Document 2",
+        "file_name": "doc2.pdf"
+      }
+    ],
+    "failed": []
+  },
+  "message": "Bulk upload completed. 2 documents uploaded successfully."
+}
+```
+
+### 6. Get Single Document
+**GET** `/documents/{id}`
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "Sample Document",
+    "description": "This is a sample document",
+    "file_name": "sample.pdf",
+    "file_path": "documents/2025/08/01/1234567890_abc123.pdf",
+    "file_size": 1024000,
+    "file_size_human": "1.00 MB",
+    "file_type": "pdf",
+    "mime_type": "application/pdf",
+    "category": "Report",
+    "tags": ["sample", "test"],
+    "client_id": 2,
+    "is_public": true,
+    "download_count": 5,
+    "expiry_date": "2025-12-31",
+    "is_expired": false,
+    "created_at": "2025-08-01T12:00:00.000000Z",
+    "updated_at": "2025-08-01T12:00:00.000000Z",
+    "client": {
+      "id": 2,
+      "name": "Client Name"
+    },
+    "uploaded_by": {
+      "id": 1,
+      "name": "Admin User"
+    }
+  },
+  "message": "Document retrieved successfully"
+}
+```
+
+### 7. Update Document
+**PUT** `/documents/{id}`
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "title": "Updated Document Title",
+  "description": "Updated description",
+  "category": "Manual",
+  "tags": ["updated", "manual"],
+  "client_id": 2,
+  "is_public": false,
+  "expiry_date": "2025-12-31"
+}
+```
+
+### 8. Update Document with File
+**PUT** `/documents/{id}`
+
+**Headers:**
+```
+Content-Type: multipart/form-data
+Authorization: Bearer {token}
+```
+
+**Form Data:**
+- `file` (optional): New document file
+- `title` (optional): Document title
+- `description` (optional): Document description
+- `category` (optional): Document category
+- `tags[]` (optional): Array of tags
+- `client_id` (optional): Client ID
+- `is_public` (optional): Public access
+
+### 9. Get Documents by Client
 **GET** `/documents/client/{clientId}`
 
-### 3. Download Document
-**GET** `/documents/download/{fileId}`
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "Client Document",
+      "file_name": "client_doc.pdf",
+      "category": "Contract",
+      "created_at": "2025-08-01T12:00:00.000000Z"
+    }
+  ],
+  "message": "Client documents retrieved successfully"
+}
+```
 
-### 4. Delete Document
-**DELETE** `/documents/{fileId}`
+### 10. Get Download URL
+**GET** `/documents/{id}/download`
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "download_url": "http://127.0.0.1:8001/storage/documents/2025/08/01/1234567890_abc123.pdf",
+    "file_name": "sample.pdf",
+    "file_size": "1.00 MB",
+    "mime_type": "application/pdf"
+  },
+  "message": "Download URL generated successfully"
+}
+```
+
+### 11. Download Document Direct
+**GET** `/documents/{id}/download-direct`
+
+Downloads the file directly with proper headers.
+
+### 12. Preview Document
+**GET** `/documents/{id}/preview`
+
+Previews the document in browser (supports PDF, images, text files).
+
+### 13. Delete Single Document
+**DELETE** `/documents/{id}`
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "message": "Document deleted successfully"
+}
+```
+
+### 14. Bulk Delete Documents
+**DELETE** `/documents/bulk-delete`
+
+**Headers:**
+```
+Content-Type: application/json
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "document_ids": [1, 2, 3]
+}
+```
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "data": {
+    "deleted_count": 3,
+    "failed_deletions": []
+  },
+  "message": "Bulk deletion completed. 3 documents deleted successfully."
+}
+```
+
+### 15. Public Document Download
+**GET** `/documents/public/download/{filename}`
+
+Downloads public documents without authentication.
+
+**CURL Examples:**
+
+```bash
+# Get all documents
+curl -X GET http://127.0.0.1:8001/api/documents \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json"
+
+# Upload document
+curl -X POST http://127.0.0.1:8001/api/documents \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json" \
+  -F "file=@document.pdf" \
+  -F "title=Sample Document" \
+  -F "category=Report" \
+  -F "client_id=2"
+
+# Bulk upload
+curl -X POST http://127.0.0.1:8001/api/documents/bulk-upload \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json" \
+  -F "files[]=@doc1.pdf" \
+  -F "files[]=@doc2.pdf" \
+  -F "category=Contract"
+
+# Download document
+curl -X GET http://127.0.0.1:8001/api/documents/1/download \
+  -H "Authorization: Bearer {token}" \
+  -H "Accept: application/json"
+
+# Public download
+curl -X GET http://127.0.0.1:8001/api/documents/public/download/sample.pdf
+```
 
 ---
 
