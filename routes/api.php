@@ -20,8 +20,8 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
-    Route::post('/register', [AuthController::class, 'register'])
-        ->middleware(['auth:sanctum', 'role:Admin']);
+    // Public registration endpoint
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
 // Protected API Routes

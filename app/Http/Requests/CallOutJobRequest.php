@@ -57,7 +57,7 @@ class CallOutJobRequest extends FormRequest
             'work_order_number.unique' => 'Work order number already exists.',
             'start_date.required' => 'Start date is required.',
             'end_date.after' => 'End date must be after start date.',
-            'status.in' => 'Status must be one of: Pending, In Progress, Completed, Cancelled.',
+            'status.in' => 'Status must be one of: scheduled, in_progress, completed, cancelled.',
             'documents.*.mimes' => 'Documents must be PDF, DOC, DOCX, JPG, JPEG, or PNG files.',
             'documents.*.max' => 'Document size cannot exceed 10MB.'
         ];

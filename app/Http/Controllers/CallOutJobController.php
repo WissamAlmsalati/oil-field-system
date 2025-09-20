@@ -80,9 +80,9 @@ class CallOutJobController extends Controller
         try {
             $data = $request->validated();
             
-            // Set default status if not provided
+            // Set default status if not provided (must match DB enum)
             if (!isset($data['status'])) {
-                $data['status'] = 'Pending';
+                $data['status'] = 'scheduled';
             }
 
             // Handle document uploads if present
